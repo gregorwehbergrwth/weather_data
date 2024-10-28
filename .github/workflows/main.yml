@@ -19,19 +19,25 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
 
-            - name: Run script
-              run: python scraper_test.py
-
-            # New step to create a file with the current date and time
-            - name: Create date-time file
+            - name: Run script and capture output
+              id: run_script
               run: |
-                  echo "Scraper run at: $(date)" > scraper_output.txt
+                  python scraper_test.py > script_output.txt
+                  cat script_output.txt  # Display the output in the logs
+
+            # Create a timestamped file name and save output
+            - name: Save output with date-time filename
+              run: |
+                  timestamp=$(date +"%Y%m%d_%H%M%S")
+                  filename="scraper_output_$timestamp.txt"
+                  mv script_output.txt "$filename"
+                  echo "Saved output to $filename"
 
             # Commit the new file to the repository
             - name: Commit changes
               run: |
                   git config --local user.email "github-actions[bot]@users.noreply.github.com"
                   git config --local user.name "github-actions[bot]"
-                  git add scraper_output.txt
+                  git add scraper_output_*.txt
                   git commit -m "Add scraper output with date-time"
                   git push

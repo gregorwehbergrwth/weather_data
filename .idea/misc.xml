@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="envINEEDaggregate" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="envINEEDaggregate" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="weather_environment_2" project-jdk-type="Python SDK" />
 </project>
