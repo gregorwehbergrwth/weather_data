@@ -44,3 +44,5 @@ hourly_dataframe = pd.DataFrame(data = hourly_data)
 # print(hourly_dataframe)
 # to string
 print(hourly_dataframe.to_string())
+
+print(pd.__version__)
