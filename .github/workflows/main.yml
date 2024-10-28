@@ -25,8 +25,8 @@ jobs:
                   TZ: Europe/Berlin  # Set the time zone to Central European Time
               run: |
                   # Run the script and capture the output
-#                  output=$(python scraper_test.py)
-                  output=$(python openmeteo_data_scraper.py)
+                  output=$(python scraper_test.py)
+#                  output=$(python openmeteo_data_scraper.py)
 
                   # Format the filename with MEZ date and time
                   filename="scraper_output_$(date +'%Y%m%d_%H%M%S').txt"
