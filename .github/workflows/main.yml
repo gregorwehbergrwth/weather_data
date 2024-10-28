@@ -19,25 +19,25 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
 
-            - name: Run script and capture output
-              id: run_script
+            # Run the Python script and save output to a timestamped file in MEZ
+            - name: Run script and save output
+              env:
+                  TZ: Europe/Berlin  # Set the time zone to Central European Time
               run: |
-                  python scraper_test.py > script_output.txt
-                  cat script_output.txt  # Display the output in the logs
+                  # Run the script and capture the output
+                  output=$(python scraper_test.py)
 
-            # Create a timestamped file name and save output
-            - name: Save output with date-time filename
-              run: |
-                  timestamp=$(date +"%Y%m%d_%H%M%S")
-                  filename="scraper_output_$timestamp.txt"
-                  mv script_output.txt "$filename"
-                  echo "Saved output to $filename"
+                  # Format the filename with MEZ date and time
+                  filename="scraper_output_$(date +'%Y%m%d_%H%M%S').txt"
 
-            # Commit the new file to the repository
-            - name: Commit changes
+                  # Save the output to the timestamped file
+                  echo "$output" > "$filename"
+
+            # Commit and push the file to the repository
+            - name: Commit and push changes
               run: |
                   git config --local user.email "github-actions[bot]@users.noreply.github.com"
                   git config --local user.name "github-actions[bot]"
                   git add scraper_output_*.txt
-                  git commit -m "Add scraper output with date-time"
+                  git commit -m "Add scraper output with MEZ timestamp"
                   git push
