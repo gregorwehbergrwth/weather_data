@@ -27,12 +27,21 @@ jobs:
                   # Run the script which saves the DataFrame as a CSV
                   python openmeteo_data_scraper.py
 
+                  # List files to confirm if scraper_output.csv was created
+                  echo "Listing directory contents after script execution:"
+                  ls -la
+
                   # Format the filename with MEZ date and time
                   timestamp=$(date +'%Y%m%d_%H%M%S')
                   filename="scraper_output_${timestamp}.csv"
 
-                  # Rename the CSV file with a timestamp
-                  mv scraper_output.csv "$filename"
+                  # Rename the CSV file if it exists
+                  if [ -f "scraper_output.csv" ]; then
+                      mv scraper_output.csv "$filename"
+                  else
+                      echo "Error: scraper_output.csv not found"
+                      exit 1
+                  fi
 
             # Commit and push the CSV file to the repository
             - name: Commit and push changes
