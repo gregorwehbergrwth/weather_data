@@ -1,0 +1,37 @@
+name: Run OpenMeteo API
+
+on: [workflow_dispatch]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+
+            - name: Run script
+              run: python scraper_test.py
+
+            # New step to create a file with the current date and time
+            - name: Create date-time file
+              run: |
+                  echo "Scraper run at: $(date)" > scraper_output.txt
+
+            # Commit the new file to the repository
+            - name: Commit changes
+              run: |
+                  git config --local user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --local user.name "github-actions[bot]"
+                  git add scraper_output.txt
+                  git commit -m "Add scraper output with date-time"
+                  git push
