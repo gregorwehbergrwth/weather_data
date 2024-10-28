@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import lxml
 
 url = "https://webscraper.io/test-sites"
 def get_html(url):
