@@ -41,8 +41,11 @@ hourly_data = {"date": pd.date_range(
 hourly_data["temperature_2m"] = hourly_temperature_2m
 
 hourly_dataframe = pd.DataFrame(data = hourly_data)
+hourly_dataframe.to_csv('data.csv', index=False)
 # print(hourly_dataframe)
 # to string
-print(hourly_dataframe.to_string())
+# print(hourly_dataframe.to_string())
 
-print(pd.__version__)
+# print(hourly_data)
+
+
