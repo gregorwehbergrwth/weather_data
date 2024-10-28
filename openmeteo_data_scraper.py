@@ -58,12 +58,7 @@ hourly_data["global_tilted_irradiance"] = hourly_global_tilted_irradiance
 hourly_data["terrestrial_radiation"] = hourly_terrestrial_radiation
 
 hourly_dataframe = pd.DataFrame(data = hourly_data)
-# print(hourly_dataframe)
-hourly_dataframe.to_csv('scraper_output.csv', index=False)
-# print(hourly_dataframe)
-# to string
-# print(hourly_dataframe.to_string())
 
-# print(hourly_data)
+hourly_dataframe.to_csv('scraper_output.csv', index=False)
 
 
