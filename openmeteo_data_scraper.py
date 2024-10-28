@@ -59,6 +59,7 @@ hourly_data["terrestrial_radiation"] = hourly_terrestrial_radiation
 
 hourly_dataframe = pd.DataFrame(data = hourly_data)
 
+
 hourly_dataframe.to_csv('scraper_output.csv', index=False)
 
 
