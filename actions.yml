@@ -21,3 +21,15 @@ jobs:
 
             - name: Run script
               run: python scraper_test.py
+
+            - name: Commit changes
+              uses: dawidd6/action-send-mail@v3
+              with:
+                server_address: smtp.gmail.com
+                server_port: 465
+                username: ${{secrets.MAIL_USERNAME}}
+                password: ${{secrets.MAIL_PASSWORD}}
+                subject: 'Your requested data is ready, my lord'
+                to: rotschilf@gmx.de
+                from: Scraper
+                html_body: file://test.txt
