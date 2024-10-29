@@ -1,0 +1,56 @@
+name: Run OpenMeteo API
+
+on:
+  schedule:
+    # Run every 1 minutes
+    - cron: "0 */3 * * *"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+
+            # Run the Python script to save DataFrame output to CSV
+            - name: Run script and save output to CSV
+              env:
+                  TZ: Europe/Berlin  # Set the time zone to Central European Time
+              run: |
+                  # Run the script which saves the DataFrame as a CSV
+                  python openmeteo_data_scraper.py
+
+                  # List files to confirm if scraper_output.csv was created
+                  echo "Listing directory contents after script execution:"
+                  ls -la
+
+                  # Format the filename with MEZ date and time
+                  timestamp=$(date +'%Y%m%d_%H%M%S')
+                  filename="scraper_output_${timestamp}.csv"
+
+                  # Rename the CSV file if it exists
+                  if [ -f "scraper_output.csv" ]; then
+                      mv scraper_output.csv "$filename"
+                  else
+                      echo "Error: scraper_output.csv not found"
+                      exit 1
+                  fi
+
+            # Commit and push the CSV file to the repository
+            - name: Commit and push changes
+              run: |
+                  git config --local user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --local user.name "github-actions[bot]"
+                  git add scraper_output_*.csv
+                  git commit -m "Add scraper output with MEZ timestamp"
+                  git push
