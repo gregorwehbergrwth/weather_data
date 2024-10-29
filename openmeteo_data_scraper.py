@@ -63,4 +63,4 @@ for i, response in enumerate(responses):
         combined_hourly_data = pd.merge(combined_hourly_data, hourly_dataframe, on="date", how="outer")
 
 # Save the combined data to a CSV file
-combined_hourly_data.to_csv('scraper_output_3.csv', index=False)
+combined_hourly_data.to_csv('scraper_output.csv', index=False)
